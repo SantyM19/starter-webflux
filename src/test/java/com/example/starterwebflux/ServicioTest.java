@@ -40,7 +40,7 @@ class ServicioTest {
                 .thenAwait(Duration.ofSeconds(1)).verifyComplete();
     }
 
-    @Test
+    /*@Test
     void testTodosFiltro() {
         Flux<String> source = servicio.buscarTodosFiltro();
         StepVerifier
@@ -50,6 +50,19 @@ class ServicioTest {
                 .expectNext("CLOE", "CATE")
                 .expectComplete()
                 .verify();
+    }*/
+
+    @Test
+    void testTodosFiltro() {
+        Flux<String> source = servicio.buscarTodosFiltro();
+        StepVerifier
+                .withVirtualTime(() -> Flux.interval(Duration.ofSeconds(1)).take(2))
+                .expectSubscription()
+                .expectNoEvent(Duration.ofSeconds(1))
+                .expectNext(0L)
+                .thenAwait(Duration.ofSeconds(1))
+                .expectNext(1L)
+                .verifyComplete();
     }
 
 }
